@@ -1,3 +1,4 @@
+import 'package:bytebank/components/editor.dart';
 import 'package:bytebank/transferencia/transferencia.dart';
 import 'package:flutter/material.dart';
 
@@ -15,38 +16,18 @@ class FormularioTransferencia extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              TextField(
-                controller: _controllerNumeroConta,
-                style: textStyle(),
-                key: const Key("numeroConta"),
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                    labelText: "Número conta", hintText: '0000'),
-              ),
-              TextField(
-                key: const Key("valor"),
-                controller: _controllerValor,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                    labelText: "Valor",
-                    hintText: '0.000,00',
-                    icon: Icon(Icons.monetization_on)),
-                style: textStyle(),
-              ),
+              Editor(
+                  label: "Número conta",
+                  controller: _controllerNumeroConta,
+                  hint: '0000'),
+              Editor(
+                  label: "Valor",
+                  controller: _controllerValor,
+                  icon: const Icon(Icons.monetization_on),
+                  hint: '0.000,00'),
               ElevatedButton(
                   onPressed: () {
-                    int? numeroConta =
-                        int.tryParse(_controllerNumeroConta.text);
-                    double? valor = double.tryParse(_controllerValor.text);
-                    if (numeroConta != null && valor != null) {
-                      var transferenciaCriada =
-                          Transferencia(numeroConta, valor);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('$transferenciaCriada'),
-                        ),
-                      );
-                    }
+                    criarTransferencia(context);
                   },
                   child: const Text("Confirmar"))
             ],
@@ -54,5 +35,11 @@ class FormularioTransferencia extends StatelessWidget {
         ));
   }
 
-  TextStyle textStyle() => const TextStyle(fontSize: 24.0);
+  void criarTransferencia(BuildContext context) {
+    int? numeroConta = int.tryParse(_controllerNumeroConta.text);
+    double? valor = double.tryParse(_controllerValor.text);
+    if (numeroConta != null && valor != null) {
+      Navigator.pop(context, Transferencia(numeroConta, valor));
+    }
+  }
 }

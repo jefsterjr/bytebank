@@ -1,4 +1,4 @@
-import 'package:bytebank/transferencia/formulario.dart';
+import 'package:bytebank/transferencia/listagem.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -6,5 +6,5 @@ void main() {
 }
 
 MaterialApp ByteBankApp() {
-  return MaterialApp(home: FormularioTransferencia());
+  return MaterialApp(home: ListagemTransferencia());
 }
