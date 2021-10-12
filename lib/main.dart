@@ -1,11 +1,10 @@
-import 'package:bytebank/transferencia/lista_transferencia.dart';
+import 'package:bytebank/transferencia/formulario.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(title: Text("Tranferências")),
-          floatingActionButton:
-              FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),
-          body: const ListaTransferencia())));
+  runApp(ByteBankApp());
+}
+
+MaterialApp ByteBankApp() {
+  return MaterialApp(home: FormularioTransferencia());
 }
