@@ -1,15 +1,23 @@
 import 'package:bytebank/model/transferencia.dart';
-import 'package:bytebank/transferencia/formulario.dart';
-import 'package:bytebank/transferencia/item.dart';
+import 'package:bytebank/screens/formulario.dart';
 import 'package:flutter/material.dart';
 
-class ListagemTransferencia extends StatelessWidget {
+import 'item.dart';
+
+class ListagemTransferencia extends StatefulWidget {
   final List<Transferencia> _transferencias = List.empty(growable: true);
 
   @override
+  State<StatefulWidget> createState() {
+    return ListagemTransferenciaState();
+  }
+}
+
+class ListagemTransferenciaState extends State<ListagemTransferencia> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Tranferências")),
+      appBar: AppBar(title: const Text("Tranferências")),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             addTransferencia(context);
@@ -17,9 +25,9 @@ class ListagemTransferencia extends StatelessWidget {
           child: const Icon(Icons.add)),
       body: ListView.builder(
           itemBuilder: (context, index) {
-            return ItemTransferencia(_transferencias[index]);
+            return ItemTransferencia(widget._transferencias[index]);
           },
-          itemCount: _transferencias.length),
+          itemCount: widget._transferencias.length),
     );
   }
 
@@ -28,6 +36,13 @@ class ListagemTransferencia extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
       return FormularioTransferencia();
     }));
-    future.then((transferencia) => _transferencias.add(transferencia!));
+    future.then((transferencia) => {
+          if (transferencia != null)
+            {
+              setState(() {
+                widget._transferencias.add(transferencia);
+              })
+            }
+        });
   }
 }
